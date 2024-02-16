@@ -24,16 +24,15 @@ function findNeighbors(node, matrix) {
 
 
 function bfsPath(matrix, startNode, endValue) {
-    
-    let que = [ [startNode] ];
+    let traveled = [];
+    let que = [ startNode ];
     let visited = new Set().add(startNode.toString());
     while (que.length) {
-        let path = que.shift();
-        let [row, col] = path[path.length - 1];
-        
+        let node = que.shift();
+        let [row, col] = node;
+        traveled.push(node);
         if (matrix[row][col] === endValue) {
-            console.log(path)
-            return path;
+            return traveled;
         }
         
         let neighbors = findNeighbors([row, col], matrix)
@@ -42,7 +41,7 @@ function bfsPath(matrix, startNode, endValue) {
             
             if (!visited.has(key)) {
                 visited.add(key);
-                que.push([...path, neighbor]);
+                que.push(neighbor);
             }
         }
        
