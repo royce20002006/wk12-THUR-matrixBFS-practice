@@ -1,8 +1,20 @@
 function findNeighbors(node, matrix) {
     // Up
+    let arr = [];
+    let directions = [ [-1, 0 ], [1,0], [0, -1], [0,1]];
+    for (let dir of directions) {
+        let newRow = node[0] + dir[0];
+        let newCol = node[1] + dir[1];
+
+        if (newRow >= 0 && newRow < matrix.length && newCol >= 0 && newCol < matrix.length) {
+            arr.push([newRow, newCol]);
+        }
+    }
+    return arr;
+
 
     // Down
-
+    
     // Left
 
     // Right
@@ -12,7 +24,24 @@ function findNeighbors(node, matrix) {
 
 
 function bfsPath(matrix, startNode, endValue) {
-    // Your code here 
+    let arr = [];
+    let que = [ startNode ];
+    let set = new Set().add(startNode);
+    while (que.length) {
+        let check = que.shift();
+        let [row, col] = check;
+        
+        if (matrix[row][col] === endValue) {
+            arr.push(check);
+        }
+
+        if (!set.has(findNeighbors(check, matrix))) {
+            set.add(findNeighbors(check, matrix));
+            que.push(findNeighbors(check, matrix))
+        }
+    }
+    
+    return arr;
 }
 
 
