@@ -24,24 +24,33 @@ function findNeighbors(node, matrix) {
 
 
 function bfsPath(matrix, startNode, endValue) {
-    let arr = [];
-    let que = [ startNode ];
-    let set = new Set().add(startNode);
+    
+    let que = [ [startNode] ];
+    let visited = new Set().add(startNode.toString());
     while (que.length) {
-        let check = que.shift();
-        let [row, col] = check;
+        let path = que.shift();
+        let [row, col] = path[path.length - 1];
         
         if (matrix[row][col] === endValue) {
-            arr.push(check);
+            console.log(path)
+            return path;
         }
+        
+        let neighbors = findNeighbors([row, col], matrix)
+        for (let neighbor of neighbors) {
+            let key = neighbor.toString();
+            
+            if (!visited.has(key)) {
+                visited.add(key);
+                que.push([...path, neighbor]);
+            }
+        }
+       
 
-        if (!set.has(findNeighbors(check, matrix))) {
-            set.add(findNeighbors(check, matrix));
-            que.push(findNeighbors(check, matrix))
-        }
+
     }
     
-    return arr;
+    return false;
 }
 
 
